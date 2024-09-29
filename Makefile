@@ -1,18 +1,19 @@
 REACTOR_INCLUDES= include
+REACTOR_SOURCE_DIR = src
 
 REACTOR_SRCS = \
-	src/action.c \
-	src/builtin_triggers.c \
-	src/connection.c \
-	src/environment.c \
-	src/platform.c \
-	src/port.c \
-	src/queues.c \
-	src/reaction.c \
-	src/reactor.c \
-	src/scheduler.c \
-	src/tag.c \
-	src/timer.c \
-	src/trigger_value.c \
-	src/trigger.c
+	action.c \
+	builtin_triggers.c \
+	connection.c \
+	environment.c \
+	platform.c \
+	port.c \
+	queues.c \
+	reaction.c \
+	reactor.c \
+	scheduler.c \
+	tag.c \
+	timer.c \
+	trigger_value.c \
+	trigger.c
 
