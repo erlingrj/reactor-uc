@@ -1,0 +1,25 @@
+name: Generate memory usage report
+description: Generate a memory usage report for a specific branch
+
+inputs:
+  branch:
+    required: true
+
+runs:
+  using: "composite"
+  steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+      with:
+        submodules: recursive
+        ref: ${{ inputs.branch }}
+    - name: Report
+      shell: bash
+      run: |
+        make test
+        cat build/test/*.size > build/memory-report-${{ inputs.branch }}.txt
+    - name: Upload
+      uses: actions/upload-artifact@v4
+      with:
+        name: Memory-report-${{ inputs.branch }}
+        path: build/memory-report-${{ inputs.branch }}.txt

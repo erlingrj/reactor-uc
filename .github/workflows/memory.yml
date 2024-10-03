@@ -1,0 +1,63 @@
+name: Memory usage report
+
+on:
+  pull_request:
+  
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  ci:
+    name: Report memory usage
+    runs-on: ubuntu-latest
+    steps:
+      # To get the potential changes to CI
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          submodules: recursive
+      
+      - name: Generate memory usage report (current branch)
+        uses: ./.github/actions/memory-report
+        with:
+          branch: ${{ github.head_ref }}
+      # TODO: Comment back in
+      #- name: Generate memory usage report (main)
+      #  uses: ./.github/actions/memory-report
+      #  with:
+      #    branch: ${{ github.base_ref }}
+      
+      # To get back to the PR branch
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          submodules: recursive
+      
+      - name: Compare
+        run: |
+          # TODO: Must be the ones generated ofc, but for now just static to test
+          python3 -m pip install -r scripts/ci/reports/requirements.txt
+          python3 scripts/ci/reports/parse-reports.py \
+                  scripts/ci/reports/test/update.txt \
+                  scripts/ci/reports/test/main.txt \
+                  report.txt
+      - name: Comment
+        uses: gavv/pull-request-artifacts@v2.1.0
+        with:
+          commit: ${{ github.event.pull_request.head.sha }}
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          artifacts: report.txt
+          comment-title: "Memory usage report"
+          comment-message: "Here is an overview of how your pull request impacts the memory usage compared to the main branch:"
+      - name: Comment test
+        uses: gavv/pull-request-artifacts@v2.1.0
+        with:
+          commit: ${{ github.event.pull_request.head.sha }}
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          artifacts: report.txt
+          comment-title: "Test"
+          comment-message: "| First Header  | Second Header | \
+                            | ------------- | ------------- | \
+                            | Content Cell  | Content Cell  | \
+                            | Content Cell  | Content Cell  |"
