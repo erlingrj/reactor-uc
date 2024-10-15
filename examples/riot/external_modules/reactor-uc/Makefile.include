@@ -1,0 +1,9 @@
+
+CFLAGS += -DPLATFORM_RIOT=1
+
+# Use an immediate variable to evaluate `MAKEFILE_LIST` now
+USEMODULE_INCLUDES_reactor-uc := $(LAST_MAKEFILEDIR)/../../../../include
+USEMODULE_INCLUDES += $(USEMODULE_INCLUDES_reactor-uc)
+
+USEMODULE_INCLUDES_reactor-uc2 := $(LAST_MAKEFILEDIR)/../../../../external
+USEMODULE_INCLUDES += $(USEMODULE_INCLUDES_reactor-uc2)
