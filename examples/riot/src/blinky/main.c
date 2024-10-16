@@ -20,7 +20,8 @@ struct MyReactor {
 
 void timer_handler(Reaction *_self) {
   LED0_TOGGLE;
-  printf("Hello World @ %u\n", (uint32_t)_self->parent->env->current_tag.time);
+  Environment *env = _self->parent->env;
+  printf("Hello World @ %lld\n", env->get_elapsed_physical_time(env));
 }
 
 void MyReaction_ctor(MyReaction *self, Reactor *parent) {
