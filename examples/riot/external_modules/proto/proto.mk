@@ -1,3 +1,3 @@
-MODULE = reactor-uc
+MODULE = proto
 
 include $(RIOTBASE)/Makefile.base

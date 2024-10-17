@@ -1,3 +1,3 @@
-MODULE = reactor-uc
+MODULE = nanopb
 
 include $(RIOTBASE)/Makefile.base
